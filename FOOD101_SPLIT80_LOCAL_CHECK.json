@@ -1,0 +1,143 @@
+{
+  "protocol": "released8_stratified80_seed0_v1",
+  "errors": [],
+  "warnings": [
+    "Custom stratified split of the released eight classes; not the confirmed author split."
+  ],
+  "arrows": {
+    "train": {
+      "rows": 5381,
+      "effective_rows": 5381,
+      "bytes": 455181130,
+      "class_counts": {
+        "frozen_yogurt": 689,
+        "foie_gras": 637,
+        "sushi": 701,
+        "club_sandwich": 650,
+        "ramen": 685,
+        "tacos": 687,
+        "gnocchi": 690,
+        "spaghetti_carbonara": 642
+      }
+    },
+    "test": {
+      "rows": 1346,
+      "effective_rows": 1346,
+      "bytes": 116245898,
+      "class_counts": {
+        "frozen_yogurt": 172,
+        "sushi": 175,
+        "tacos": 172,
+        "ramen": 172,
+        "spaghetti_carbonara": 161,
+        "gnocchi": 173,
+        "foie_gras": 159,
+        "club_sandwich": 162
+      }
+    }
+  },
+  "tasks": {
+    "both": {
+      "exists": true,
+      "sha256": "f7ff439773e71d12fea9314dcfd05dc59c99974d7c8ba56e5f6a320bc4912e6d",
+      "clients": 20,
+      "train": 5381,
+      "test": 1346,
+      "client_sizes": [
+        270,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269
+      ]
+    },
+    "text": {
+      "exists": true,
+      "sha256": "ecc56ada3d691f7ec1d658c980fa853ea7562bd1e219812fe71fb89a271b2a6d",
+      "clients": 20,
+      "train": 5381,
+      "test": 1346,
+      "client_sizes": [
+        270,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269
+      ]
+    },
+    "image": {
+      "exists": true,
+      "sha256": "0ee7a79ca43cb9a506b92a0ae39599dc07b74f1ef8eeb6ba5af4c5cdb105f0bc",
+      "clients": 20,
+      "train": 5381,
+      "test": 1346,
+      "client_sizes": [
+        270,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269,
+        269
+      ]
+    }
+  },
+  "manifest_sha256": "44c70ce5c5e30e16be502fc31a058926ef6fc304cf734cf6e504d02db57438de",
+  "resources": {
+    "vilt_200k_mlm_itm.ckpt": {
+      "bytes": 1628097027,
+      "expected_bytes": 1628097027
+    },
+    "bert-base-uncased/vocab.txt": {
+      "bytes": 231508,
+      "expected_bytes": 231508
+    },
+    "bert-base-uncased/config.json": {
+      "bytes": 433,
+      "expected_bytes": 433
+    }
+  }
+}

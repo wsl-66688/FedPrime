@@ -1,0 +1,96 @@
+{
+  "protocol": "released_data_subset_paper_training_parameters",
+  "errors": [],
+  "warnings": [
+    "Released code selects Arrow prefixes; exact author class IDs, 80:20 split, repeat seeds and model-selection rule are not established.",
+    "Task not generated: text",
+    "Task not generated: image"
+  ],
+  "arrows": {
+    "train": {
+      "bytes": 6202968218,
+      "rows": 67972,
+      "effective_rows": 4904,
+      "record_batches": 266,
+      "labels": {
+        "0": 628,
+        "1": 626,
+        "2": 629,
+        "3": 625,
+        "4": 639,
+        "5": 585,
+        "6": 580,
+        "7": 592
+      },
+      "validation": "IPC structure and selected labels; image payloads not reread"
+    },
+    "test": {
+      "bytes": 2061544130,
+      "rows": 22716,
+      "effective_rows": 1823,
+      "record_batches": 89,
+      "labels": {
+        "0": 233,
+        "1": 233,
+        "2": 234,
+        "3": 232,
+        "4": 237,
+        "5": 218,
+        "6": 216,
+        "7": 220
+      },
+      "validation": "IPC structure and selected labels; image payloads not reread"
+    }
+  },
+  "tasks": {
+    "both": {
+      "exists": true,
+      "sha256": "b8653498c4ed884b22e683c1b68f87e765eb229a674d96bb6c0f40a50ada0b89",
+      "clients": 20,
+      "train": 4904,
+      "test": 1823,
+      "client_sizes": [
+        249,
+        249,
+        249,
+        249,
+        249,
+        247,
+        246,
+        246,
+        245,
+        244,
+        244,
+        244,
+        243,
+        243,
+        243,
+        243,
+        243,
+        243,
+        243,
+        242
+      ]
+    },
+    "text": {
+      "exists": false
+    },
+    "image": {
+      "exists": false
+    }
+  },
+  "resources": {
+    "vilt_200k_mlm_itm.ckpt": {
+      "bytes": 1628097027,
+      "expected_bytes": 1628097027
+    },
+    "bert-base-uncased/vocab.txt": {
+      "bytes": 231508,
+      "expected_bytes": 231508
+    },
+    "bert-base-uncased/config.json": {
+      "bytes": 433,
+      "expected_bytes": 433
+    }
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "protocol": "released_data_subset_paper_training_parameters",
+  "errors": [],
+  "warnings": [
+    "Released code selects Arrow prefixes; exact author class IDs, 80:20 split, repeat seeds and model-selection rule are not established.",
+    "Task not generated: text",
+    "Task not generated: image"
+  ],
+  "arrows": {
+    "train": {
+      "bytes": 6202968218,
+      "rows": 67972,
+      "effective_rows": 4904,
+      "record_batches": 266,
+      "labels": {
+        "0": 628,
+        "1": 626,
+        "2": 629,
+        "3": 625,
+        "4": 639,
+        "5": 585,
+        "6": 580,
+        "7": 592
+      },
+      "validation": "IPC structure and selected labels; image payloads not reread"
+    },
+    "test": {
+      "bytes": 2061544130,
+      "rows": 22716,
+      "effective_rows": 1823,
+      "record_batches": 89,
+      "labels": {
+        "0": 233,
+        "1": 233,
+        "2": 234,
+        "3": 232,
+        "4": 237,
+        "5": 218,
+        "6": 216,
+        "7": 220
+      },
+      "validation": "IPC structure and selected labels; image payloads not reread"
+    }
+  },
+  "tasks": {
+    "both": {
+      "exists": true,
+      "sha256": "b8653498c4ed884b22e683c1b68f87e765eb229a674d96bb6c0f40a50ada0b89",
+      "clients": 20,
+      "train": 4904,
+      "test": 1823,
+      "client_sizes": [
+        249,
+        249,
+        249,
+        249,
+        249,
+        247,
+        246,
+        246,
+        245,
+        244,
+        244,
+        244,
+        243,
+        243,
+        243,
+        243,
+        243,
+        243,
+        243,
+        242
+      ]
+    },
+    "text": {
+      "exists": false
+    },
+    "image": {
+      "exists": false
+    }
+  },
+  "resources": {
+    "vilt_200k_mlm_itm.ckpt": {
+      "bytes": 1628097027,
+      "expected_bytes": 1628097027
+    },
+    "bert-base-uncased/vocab.txt": {
+      "bytes": 231508,
+      "expected_bytes": 231508
+    },
+    "bert-base-uncased/config.json": {
+      "bytes": 433,
+      "expected_bytes": 433
+    }
+  },
+  "readiness": {
+    "local_inputs_passed": true,
+    "remote_training_verified": true,
+    "remote_hardware_verified": true,
+    "full_resume_implemented": false,
+    "final_metrics_written_at_end_of_each_run": true,
+    "formal_command_runs": 3,
+    "rounds_per_run": 250,
+    "total_training_rounds": 750,
+    "paper_data_protocol_confirmed": false,
+    "pycharm_auto_upload_currently_enabled": true,
+    "pycharm_data_weights_task_exclusions_configured": false,
+    "remote_hardware_verification_source": "User-provided terminal output; not an independent remote execution",
+    "remote_project_preflight_verified": true,
+    "remote_training_verification_scope": "One complete Miss Both FedPrime smoke round; not full or multi-scenario training",
+    "remote_project_preflight_verification_scope": "Synced smoke data-audit.json has no errors, runtime and Both task checked; other two tasks absent in this snapshot",
+    "full_250_round_training_verified": false
+  },
+  "remote_observation": {
+    "source": "User-provided terminal output; measurement timestamp not supplied",
+    "python_executable": "/home/dministrator/.conda/envs/fedprime/bin/python",
+    "python_version": "3.8.20",
+    "torch_version": "2.4.1+cu121",
+    "torch_cuda_build": "12.1",
+    "cuda_available": true,
+    "gpu_as_reported": {
+      "index": 0,
+      "name": "NVIDIA GeForce RTX 4080 SUPER",
+      "total_mib": 32760,
+      "used_mib": 3656,
+      "free_mib": 28712,
+      "utilization_percent": 22
+    },
+    "ram_total_gib": 31,
+    "ram_available_gib": 24,
+    "swap_total_gib": 8,
+    "swap_used_gib": 0,
+    "project_and_tmp_disk": {
+      "device": "/dev/sdd",
+      "size_as_reported": "1007G",
+      "available_as_reported": "763G",
+      "same_filesystem": true
+    },
+    "repository_env_setup_torch": "2.3.1+cu118",
+    "version_difference_recorded": true,
+    "full_training_still_unverified": true
+  },
+  "smoke_evidence": {
+    "directory": "experiments/table1/20261017_210820_smoke_a1776518/both_Fed-Prime_seed1234",
+    "state": "complete",
+    "scenario": "both",
+    "rounds": 1,
+    "observed_total_training_and_evaluation_seconds": 362.6102,
+    "final_accuracy_percent": {
+      "test_acc": 13.494240263302249,
+      "test_full_modal_acc": 11.519473395501919,
+      "test_text_only_acc": 12.616566099835435,
+      "test_image_only_acc": 13.768513439385627
+    },
+    "source": "Remote runtime paths and CUDA execution confirmed in synced console.log and metadata"
+  }
+}

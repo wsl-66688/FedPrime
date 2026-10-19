@@ -1,0 +1,108 @@
+{
+  "date": "2026-10-17",
+  "source_metadata_sha256": {
+    "class_idx.json": "13da4bd3c8c3c10f410c87db39204e52eae3b6ea24252a095d57b2ce00ecc805",
+    "split.json": "e40cfcd7728496605e9f3832ec7df591ca819abec510bd1325da48f89cd9835c",
+    "text.json": "f95a7c509a10e97c916f793e0ea76ec40b1890c8e88817478bd3387aae14af16"
+  },
+  "released_classes": [
+    "frozen_yogurt",
+    "tacos",
+    "gnocchi",
+    "ramen",
+    "sushi",
+    "spaghetti_carbonara",
+    "foie_gras",
+    "club_sandwich"
+  ],
+  "original_metadata_first_8_classes": {
+    "train": {
+      "rows": 4904,
+      "class_counts": {
+        "frozen_yogurt": 628,
+        "tacos": 626,
+        "gnocchi": 629,
+        "ramen": 625,
+        "sushi": 639,
+        "spaghetti_carbonara": 585,
+        "foie_gras": 580,
+        "club_sandwich": 592
+      }
+    },
+    "val": {
+      "rows": 548,
+      "class_counts": {
+        "frozen_yogurt": 70,
+        "tacos": 70,
+        "gnocchi": 70,
+        "ramen": 70,
+        "sushi": 71,
+        "spaghetti_carbonara": 66,
+        "foie_gras": 65,
+        "club_sandwich": 66
+      }
+    },
+    "test": {
+      "rows": 1823,
+      "class_counts": {
+        "frozen_yogurt": 233,
+        "tacos": 233,
+        "gnocchi": 234,
+        "ramen": 232,
+        "sushi": 237,
+        "spaghetti_carbonara": 218,
+        "foie_gras": 216,
+        "club_sandwich": 220
+      }
+    }
+  },
+  "arrow_prefix_comparison": {
+    "train": {
+      "arrow_selected_rows": 4904,
+      "matches_original_8_class_ids_in_order": true
+    },
+    "test": {
+      "arrow_selected_rows": 1823,
+      "matches_original_8_class_ids_in_order": true
+    }
+  },
+  "full_valid_pair_top8": [
+    [
+      "macaroni_and_cheese",
+      951
+    ],
+    [
+      "french_toast",
+      949
+    ],
+    [
+      "sushi",
+      947
+    ],
+    [
+      "risotto",
+      944
+    ],
+    [
+      "ravioli",
+      941
+    ],
+    [
+      "waffles",
+      938
+    ],
+    [
+      "pizza",
+      937
+    ],
+    [
+      "pancakes",
+      935
+    ]
+  ],
+  "full_valid_pair_top8_total": 7542,
+  "selected_train_test_total": 6727,
+  "selected_train_val_test_total": 7275,
+  "selected_missing_texts": [],
+  "author_protocol_confirmed": false
+}

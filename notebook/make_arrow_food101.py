@@ -1,9 +1,9 @@
 import json
-import pandas as pd
 import pyarrow as pa
 import random
 import os
 import re
+import tempfile
 
 from tqdm import tqdm
 from glob import glob
@@ -147,8 +147,8 @@ manual_map = {
     "ten": "10",
 }
 articles = ["a", "an", "the"]
-period_strip = re.compile("(?!<=\d)(\.)(?!\d)")
-comma_strip = re.compile("(\d)(\,)(\d)")
+period_strip = re.compile(r"(?!<=\d)(\.)(?!\d)")
+comma_strip = re.compile(r"(\d)(\,)(\d)")
 punct = [
     ";",
     r"/",
@@ -201,7 +201,9 @@ def merge_keys(d, old_key, existing_key):
     if old_key in d and existing_key in d:
         d[existing_key].extend(d.pop(old_key))
 
-def make_arrow(root, dataset_root, single_plot=False, missing_type=None):
+def make_arrow(root, dataset_root, single_plot=False, missing_type=None, batch_size=256):
+    if batch_size < 1:
+        raise ValueError("batch_size must be positive")
     image_root = os.path.join(root, 'images')
     
     with open(f"{root}/class_idx.json", "r") as fp:
@@ -213,48 +215,77 @@ def make_arrow(root, dataset_root, single_plot=False, missing_type=None):
     with open(f"{root}/split.json", "r") as fp:
         split_sets = json.load(fp)
     
-    # import pdb; pdb.set_trace()
-    
     merge_keys(split_sets, 'val', 'train')
-    
+
+    schema = pa.schema([
+        ('image', pa.binary()),
+        ('text', pa.list_(pa.string())),
+        ('label', pa.int64()),
+        ('image_id', pa.string()),
+        ('split', pa.string()),
+    ])
+    os.makedirs(dataset_root, exist_ok=True)
+
+    def write_batch(writer, rows):
+        columns = {
+            name: [row[index] for row in rows]
+            for index, name in enumerate(schema.names)
+        }
+        writer.write_table(pa.Table.from_pydict(columns, schema=schema))
+
     for split, samples in split_sets.items():
         split_type = 'train' if split != 'test' else 'test'
         data_list = []
-        for sample in tqdm(samples):
-            if sample not in text_dir:
-                print("ignore no text data: ", sample)
-                continue
-            cls = sample[:sample.rindex('_')]
-            label = FOOD_CLASS_DICT[cls]
-            image_path = os.path.join(image_root, split_type, cls, sample)
+        written_rows = 0
+        skipped_rows = 0
+        output_path = os.path.join(dataset_root, f'food101_{split}.arrow')
+        # Keep the existing output intact until the complete replacement is ready.
+        with tempfile.NamedTemporaryFile(
+            prefix=f'.food101_{split}.', suffix='.arrow.tmp',
+            dir=dataset_root, delete=False,
+        ) as temporary_file:
+            temporary_path = temporary_file.name
+        try:
+            with pa.OSFile(temporary_path, 'wb') as sink:
+                with pa.RecordBatchFileWriter(sink, schema) as writer:
+                    for sample in tqdm(samples):
+                        if sample not in text_dir:
+                            print("ignore no text data: ", sample)
+                            skipped_rows += 1
+                            continue
+                        cls = sample[:sample.rindex('_')]
+                        label = FOOD_CLASS_DICT[cls]
+                        image_path = os.path.join(image_root, split_type, cls, sample)
+                        with open(image_path, 'rb') as fp:
+                            binary = fp.read()
+                        data_list.append((binary, [text_dir[sample]], label, sample, split))
+                        if len(data_list) >= batch_size:
+                            write_batch(writer, data_list)
+                            written_rows += len(data_list)
+                            data_list.clear()
+                    if data_list:
+                        write_batch(writer, data_list)
+                        written_rows += len(data_list)
+                        data_list.clear()
 
-            with open(image_path, "rb") as fp:
-                binary = fp.read()
-                
-            text = [text_dir[sample]]
-            
-            
-            data = (binary, text, label, sample, split)
-            data_list.append(data)
+            # Check the footer, schema and row count before publishing the output.
+            with pa.OSFile(temporary_path, 'rb') as source:
+                reader = pa.ipc.RecordBatchFileReader(source)
+                actual_rows = sum(
+                    reader.get_batch(index).num_rows
+                    for index in range(reader.num_record_batches)
+                )
+                if not reader.schema.equals(schema) or actual_rows != written_rows:
+                    raise ValueError(f'Incomplete Arrow output for {split}')
+                del reader
+            os.replace(temporary_path, output_path)
+            print(f'Saved {output_path}: {written_rows} rows, skipped {skipped_rows}')
+        finally:
+            if os.path.exists(temporary_path):
+                os.remove(temporary_path)
 
-        dataframe = pd.DataFrame(
-            data_list,
-            columns=[
-                "image",
-                "text",
-                "label",
-                "image_id",
-                "split",
-            ],
-        )
-        # import pdb; pdb.set_trace()
-        table = pa.Table.from_pandas(dataframe)
 
-        os.makedirs(dataset_root, exist_ok=True)
-        with pa.OSFile(f"{dataset_root}/food101_{split}.arrow", "wb") as sink:
-            with pa.RecordBatchFileWriter(sink, table.schema) as writer:
-                writer.write_table(table)        
-
-root = 'benchmark/RAW_DATA/FOOD101'
-dataset_saved = 'benchmark/RAW_DATA/FOOD101/generate_arrows'
-make_arrow(root, dataset_saved)
+if __name__ == '__main__':
+    root = 'benchmark/RAW_DATA/FOOD101'
+    dataset_saved = 'benchmark/RAW_DATA/FOOD101/generate_arrows'
+    make_arrow(root, dataset_saved)

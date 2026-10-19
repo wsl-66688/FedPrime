@@ -50,7 +50,14 @@ class TaskPipe(IDXTaskPipe):
         
         origin_class = getattr(importlib.import_module(class_path), class_name)
         # import pdb; pdb.set_trace()
-        data_dir = "./benchmark/RAW_DATA/FOOD101/generate_arrows"
+        data_dir = feddata['datasrc'].get('data_dir', "./benchmark/RAW_DATA/FOOD101/generate_arrows")
+        other_missing_table_root = feddata['datasrc'].get(
+            'other_missing_table_root', './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/')
+        if feddata['datasrc'].get('data_protocol'):
+            from utils.food101_protocol import PROTOCOL, load_prepared_manifest
+            if feddata['datasrc']['data_protocol'] != PROTOCOL:
+                raise ValueError('Unsupported Food101 data protocol')
+            load_prepared_manifest(data_dir, feddata['datasrc']['manifest_sha256'])
         transform_keys = ['pixelbert']
         split="train"
         image_size = 384
@@ -106,7 +113,7 @@ class TaskPipe(IDXTaskPipe):
             'ratio':
                 {'test': 0.7,
                 'train': 0.7},
-            'missing_table_root': './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/',
+            'missing_table_root': other_missing_table_root,
             'type':
                 {'test': 'image',
                 'train': 'both'},
@@ -132,7 +139,7 @@ class TaskPipe(IDXTaskPipe):
             'ratio':
                 {'test': 0.7,
                 'train': 0.7},
-            'missing_table_root': './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/',
+            'missing_table_root': other_missing_table_root,
             'type':
                 {'test': 'text',
                 'train': 'both'},
@@ -156,7 +163,7 @@ class TaskPipe(IDXTaskPipe):
             'ratio':
                 {'test': 0.7,
                 'train': 0.7},
-            'missing_table_root': './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/',
+            'missing_table_root': other_missing_table_root,
             'type':
                 {'test': 'both',
                 'train': 'both'},
@@ -180,7 +187,7 @@ class TaskPipe(IDXTaskPipe):
         'ratio':
             {'test': 0,
             'train': 0.7},
-        'missing_table_root': './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/',
+        'missing_table_root': other_missing_table_root,
         'type':
             {'test': 'both',
             'train': 'both'},
@@ -204,7 +211,7 @@ class TaskPipe(IDXTaskPipe):
         'ratio':
             {'test': 1,
             'train': 0.7},
-        'missing_table_root': './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/',
+        'missing_table_root': other_missing_table_root,
         'type':
             {'test': 'text',
             'train': 'both'},
@@ -228,7 +235,7 @@ class TaskPipe(IDXTaskPipe):
         'ratio':
             {'test': 1,
             'train': 0.7},
-        'missing_table_root': './benchmark/RAW_DATA/FOOD101/missing_tables_other_tests/',
+        'missing_table_root': other_missing_table_root,
         'type':
             {'test': 'image',
             'train': 'both'},

@@ -69,14 +69,16 @@ class BaseDataset(torch.utils.data.Dataset):
             # Determine the range of rows you want to extract (for example, the first quarter of the data)
             start_index = 0
             print(total_rows)
-            if split == 'train':
-                end_index = total_rows // 13.86         # 7: 592
+            if os.path.isfile(os.path.join(data_dir, 'protocol.json')):
+                from utils.food101_protocol import validate_table
+                self.table = validate_table(self.table, data_dir, split)
             else:
-                # import pdb; pdb.set_trace()
-                end_index = total_rows // 12.458        # 7: 220
-            # Extract the subset of the table
-            # end_index = total_rows
-            self.table = self.table.slice(start_index, end_index)
+                # Preserve the published prefix selection for all legacy tasks.
+                if split == 'train':
+                    end_index = total_rows // 13.86         # 7: 592
+                else:
+                    end_index = total_rows // 12.458        # 7: 220
+                self.table = self.table.slice(start_index, end_index)
             #-------------------------------------------------------
             # import pdb; pdb.set_trace()
             self.labels = self.table['label'].to_pandas().tolist()

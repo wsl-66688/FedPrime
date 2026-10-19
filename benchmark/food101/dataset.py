@@ -43,7 +43,11 @@ class FOOD101Dataset(BaseDataset):
         total_num = len(self.table['image'])
         # import pdb; pdb.set_trace()
         
-        if os.path.exists(missing_table_path):
+        from utils.food101_protocol import fixed_mask
+        predefined_mask = fixed_mask(self.table, missing_table_path)
+        if predefined_mask is not None:
+            missing_table = torch.tensor(predefined_mask, dtype=torch.float32)
+        elif os.path.exists(missing_table_path):
             missing_table = torch.load(missing_table_path)
             if len(missing_table) != total_num:
                 print('missing table mismatched!')
